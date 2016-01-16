@@ -48,6 +48,22 @@ $.fn.next = function (selector) {
 };
 
 /**
+ * Retrieve the value of the `previousElementSibling` property until it matches
+ * the selector.
+ */
+$.fn.previous = function (selector) {
+	let newElements = this.map((i, element) => element.previousElementSibling);
+
+	newElements = $.unique(newElements).filter((el) => el instanceof Node);
+
+	if (selector) {
+		newElements = newElements.filter((child) => child.matches(selector));
+	}
+
+	return this._newFromThis(newElements);
+};
+
+/**
  * Continually get the parents of an element using `parentNode` until we find
  * one that matches the specified selector. We test for matches using the
  * `matches()` function.
