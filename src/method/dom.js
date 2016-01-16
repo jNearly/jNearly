@@ -32,8 +32,8 @@ $.fn.children = function (selector) {
 };
 
 /**
- * Retrieve the value of the `nextElementSibling` property until it matches
- * the selector.
+ * Retrieve the value of the `nextElementSibling` property for each element,
+ * filtered by selector.
  */
 $.fn.next = function (selector) {
 	let newElements = this.map((i, element) => element.nextElementSibling);
@@ -48,8 +48,8 @@ $.fn.next = function (selector) {
 };
 
 /**
- * Retrieve the value of the `previousElementSibling` property until it matches
- * the selector.
+ * Retrieve the value of the `previousElementSibling` property for each element,
+ * filtered by selector.
  */
 $.fn.previous = function (selector) {
 	let newElements = this.map((i, element) => element.previousElementSibling);
@@ -64,14 +64,57 @@ $.fn.previous = function (selector) {
 };
 
 /**
- * Continually get the parents of an element using `parentNode` until we find
- * one that matches the specified selector. We test for matches using the
+ * Retrieve the value of the `parentElement` property for each element, filtered
+ * by selector.
+ */
+$.fn.parent = function (selector) {
+	let newElements = this.map((i, element) => element.parentElement);
+
+	newElements = $.unique(newElements).filter((el) => el instanceof Node);
+
+	if (selector) {
+		newElements = newElements.filter((child) => child.matches(selector));
+	}
+
+	return this._newFromThis(newElements);
+};
+
+/**
+ * Works in a very similar way to `.parent()`, except it uses a generator to
+ * get all the parents of an element, not just the direct parent. We then use
+ * the spread operator to iterate through the iterator returned by the
+ * generator and push all the parents of every element to an array.
+ *
+ * More on iterators and generators here: http://macr.ae/article/iterators-and-generators.html
+ */
+$.fn.parents = function (selector) {
+	let newElements = [];
+	this.each((i, element) => newElements.push(...parents(element)));
+	newElements = $.unique(newElements).filter((el) => el instanceof Node);
+
+	if (selector) {
+		newElements = newElements.filter((child) => child.matches(selector));
+	}
+
+	return this._newFromThis(newElements);
+
+	// A generator function to return the parents of an element
+	function* parents(element) {
+		while ((element = element.parentElement)) {
+			yield element;
+		}
+	}
+};
+
+/**
+ * Continually get the parents of an element using `parentElement` until we
+ * find one that matches the specified selector. We test for matches using the
  * `matches()` function.
  */
 $.fn.closest = function (selector) {
 	let newElements = this.map(function (element) {
 		while (!element.matches(selector)) {
-			element = element.parentNode;
+			element = element.parentElement;
 		}
 	});
 
