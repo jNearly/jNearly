@@ -16,6 +16,25 @@ To contribute, clone the repository and run `npm install` in the root
 directory, which will install the necessary dependencies. Then run `gulp` and
 it'll do everything else for you.
 
+### Generated documentation
+
+DocBlocks are being used to generate the annotated source. People already know
+_what_ the functions are doing—or can read the jQuery documentation—so they
+should say _how_ the functions work: for example, linking to the documentation
+of the specific browser API being used.
+
+For example, this is good:
+
+```js
+/**
+ * `each` is achieved by using ES5's `forEach` method.
+ */
+$.fn.each = function (cb) {
+	getElements(this).forEach((el, i) => cb.call(el, i, el));
+	return this;
+};
+```
+
 ## Todo
 
 - Write tests
