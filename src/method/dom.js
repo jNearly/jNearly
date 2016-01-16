@@ -47,6 +47,11 @@ $.fn.next = function (selector) {
 	return this._newFromThis(newElements);
 };
 
+/**
+ * Continually get the parents of an element using `parentNode` until we find
+ * one that matches the specified selector. We test for matches using the
+ * `matches()` function.
+ */
 $.fn.closest = function (selector) {
 	let newElements = this.map(function (element) {
 		while (!element.matches(selector)) {
