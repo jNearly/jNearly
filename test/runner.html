@@ -3,9 +3,35 @@
 <head>
 	<meta charset="UTF-8">
 	<title>jNearly tests</title>
+
+	<link rel="stylesheet" href="../node_modules/mocha/mocha.css">
 </head>
 <body>
+	<div id="mocha"></div>
+
+	<div id="data">
+		<div id="index">
+			<p class="one">one</p><p>two</p>
+		</div>
+	</div>
+
 	<script src="../node_modules/babel-polyfill/dist/polyfill.js"></script>
 	<script src="../dist/bundle.js"></script>
+
+	<script src="../node_modules/mocha/mocha.js"></script>
+	<script src="../node_modules/should/should.js"></script>
+
+	<script>
+		mocha.setup('bdd');
+	</script>
+
+	<!-- test files -->
+	<script src="index.spec.js"></script>
+
+	<script>
+		mocha.run(function () {
+			$('#data').remove();
+		});
+	</script>
 </body>
 </html>

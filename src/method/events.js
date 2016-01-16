@@ -48,3 +48,13 @@ $.fn.on = function (events, selector, handler) {
 		});
 	});
 };
+
+$.fn.ready = function (handler) {
+	if (document.readyState === 'complete') {
+		handler($);
+	} else {
+		window.addEventListener('load', function () {
+			handler($);
+		});
+	}
+};

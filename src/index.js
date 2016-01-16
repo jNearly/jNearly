@@ -10,7 +10,7 @@
  */
 function $(input, context = document) {
 	if (typeof input === 'function') {
-		return $(document).on('ready', input);
+		return $(document).ready(input);
 	}
 
 	if (input instanceof $) {
@@ -28,6 +28,8 @@ function $(input, context = document) {
 		elements = Array.from(context.querySelectorAll(input));
 	} else if (Array.isArray(input)) {
 		elements = input;
+	} else if (input instanceof NodeList) {
+		elements = Array.from(input);
 	} else if (input instanceof Node) {
 		elements = [input];
 	}
