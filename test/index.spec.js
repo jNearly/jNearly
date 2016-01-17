@@ -61,7 +61,7 @@ describe('jNearly function', function () {
 	});
 
 	it('should allow element context', function () {
-		// Sanity check
+		// First test makes sure the second test will be useful
 		$('p').length.should.be.above(2);
 
 		$('p', document.getElementById('index')).length.should.equal(2);
