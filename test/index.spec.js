@@ -1,5 +1,10 @@
 'use strict';
 
+var ran = false;
+$(function () {
+	ran = true;
+});
+
 describe('jNearly function', function () {
 	it('should exist', function () {
 		should.exist(window.$);
@@ -29,6 +34,9 @@ describe('jNearly function', function () {
 	it('should accept functions', function (done) {
 		$(function (arg) {
 			arg.should.equal($);
+
+			ran.should.be.True();
+
 			done();
 		});
 	});
@@ -54,4 +62,19 @@ describe('jNearly function', function () {
 
 		$('#index p').getClassNameTest().should.equal('one');
 	});
+
+	it('should have a .splice function so it\'s array-like', function () {
+		$('#index p').splice.should.be.a.Function();
+	});
+
+	it('should allow element context', function () {
+		// Sanity check
+		$('p').length.should.be.above(2);
+
+		$('p', document.getElementById('index')).length.should.equal(2);
+	});
+
+	it('should allow selector context');
+
+	it('should accept HTML strings');
 });

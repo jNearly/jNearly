@@ -112,11 +112,16 @@ $.fn.parents = function (selector) {
  * `matches()` function.
  */
 $.fn.closest = function (selector) {
-	let newElements = this.map(function (element) {
-		while (!element.matches(selector)) {
+	let newElements = this.map(function (i, element) {
+		while (element && !element.matches(selector)) {
 			element = element.parentElement;
 		}
+
+		return element;
 	});
 
-	return this._newFromThis($.unique(newElements));
+	// This gets rid of duplicates and ensures that we don't return null elements
+	newElements = $.unique(newElements).filter((el) => el instanceof Node);
+
+	return this._newFromThis(newElements);
 };

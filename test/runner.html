@@ -13,6 +13,35 @@
 		<div id="index">
 			<p class="one">one</p><p>two</p>
 		</div>
+
+		<div id="dom-manipulation-remove">
+			<p>test</p>
+			<p>test 2</p>
+			<p class="test">test 3</p>
+		</div>
+
+		<div id="dom-traversal">
+			<div class="one">
+				<div class="one-one"></div>
+				<div class="one-two"></div>
+			</div>
+
+			<div class="two">
+				<div class="two-one"></div>
+				<div class="two-two">
+					<div class="two-two-one"></div>
+					<div class="two-two-two"></div>
+				</div>
+			</div>
+		</div>
+
+		<div id="events">
+			<p></p>
+		</div>
+
+		<div id="looping">
+			<p></p><p></p><p></p><p></p><p></p><p></p>
+		</div>
 	</div>
 
 	<script src="../node_modules/babel-polyfill/dist/polyfill.js"></script>
@@ -27,6 +56,13 @@
 
 	<!-- test files -->
 	<script src="index.spec.js"></script>
+	<script src="method/dom-manipulation.spec.js"></script>
+	<script src="method/dom-traversal.spec.js"></script>
+	<script src="method/events.spec.js"></script>
+	<script src="method/loops.spec.js"></script>
+
+	<script src="static/loops.spec.js"></script>
+	<script src="static/util.spec.js"></script>
 
 	<script>
 		mocha.run(function () {
