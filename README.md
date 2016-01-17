@@ -38,6 +38,6 @@ $.fn.each = function (cb) {
 ## Todo
 
 - Write tests
-- Write annotated docs generator
+- Style annotated docs
 - Write code
 - Split annotated docs generator into another repo
