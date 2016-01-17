@@ -40,3 +40,4 @@ $.fn.each = function (cb) {
 - Write tests
 - Write annotated docs generator
 - Write code
+- Split annotated docs generator into another repo

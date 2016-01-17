@@ -1,0 +1,24 @@
+@import "normalize.css";
+
+html {
+	box-sizing: border-box;
+}
+*, *:before, *:after {
+	box-sizing: inherit;
+}
+
+
+.docs, .code {
+	display: inline-block;
+	vertical-align: top;
+}
+
+.docs {
+	width: 30%;
+
+	padding-right: 10px;
+}
+
+.code {
+	width: 65%;
+}

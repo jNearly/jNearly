@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jNearly Annotated</title>
+
+	<link rel="stylesheet" href="assets/build/styles.css">
+</head>
+<body>
+	<div class="content">
+		{% for block in blocks %}
+			<h2>{{ block.path }}</h2>
+
+			{% for doc in block.docs %}
+				<div class="row">
+					<div class="docs">{{ doc.docs | safe }}</div>
+					<div class="code">
+						<pre><code>{{ doc.code | replace('\t', '  ') }}</code></pre>
+					</div>
+				</div>
+			{% endfor %}
+		{% endfor %}
+	</div>
+
+	<!-- We're not actually using it, but the reader will! -->
+	<script src="../dist/bundle.js"></script>
+</body>
+</html>
