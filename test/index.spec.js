@@ -1,10 +1,5 @@
 'use strict';
 
-var ran = false;
-$(function () {
-	ran = true;
-});
-
 describe('jNearly function', function () {
 	it('should exist', function () {
 		should.exist(window.$);
@@ -34,8 +29,6 @@ describe('jNearly function', function () {
 	it('should accept functions', function (done) {
 		$(function (arg) {
 			arg.should.equal($);
-
-			ran.should.be.True();
 
 			done();
 		});
