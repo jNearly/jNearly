@@ -16,7 +16,7 @@ export function docsFromCode(code) {
 				block = block.split('*/\n');
 				return {
 					docs: parseDocBlock(block[0].trim()),
-					code: block[1]
+					code: block[1].trim()
 				}
 			});
 }

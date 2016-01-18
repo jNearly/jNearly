@@ -10,8 +10,8 @@ $.fn.on = function (events, selector, handler) {
 		selector = undefined;
 	}
 
-	// If `events` is an object containing multiple events and handlers, call
-	// `on` again with each event
+	// If `events` is an object containing multiple events
+	// and handlers, call `on` again with each event
 	if (typeof events === 'object') {
 		for (let event of Object.keys(events)) {
 			this.on(event, selector, events[event]);
@@ -20,7 +20,8 @@ $.fn.on = function (events, selector, handler) {
 		return this;
 	}
 
-	// If `events` is a string containing multiple events, split it up
+	// If `events` is a string containing multiple events,
+	// split it up
 	if (events.includes(' ')) {
 		for (let event of events.split(' ')) {
 			this.on(event, selector, handler);
@@ -40,7 +41,7 @@ $.fn.on = function (events, selector, handler) {
 				returnValue = handler.call(e.target, e);
 			}
 
-			// Returning true "cancels" the event. This is an anti-pattern btw!
+			// Returning true "cancels" the event.
 			if (returnValue === false) {
 				e.preventDefault();
 				e.stopPropagation();

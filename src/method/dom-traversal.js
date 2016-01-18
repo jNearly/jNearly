@@ -21,11 +21,13 @@ $.fn.children = function (selector) {
 
 	this.each((i, el) => newElements.push(...el.children));
 
-	// We run unique first to avoid running .matches() unnecessarily
+	// Unique first to avoid running .matches() unnecessarily
 	newElements = $.unique(newElements);
 
 	if (selector) {
-		newElements = newElements.filter((child) => child.matches(selector));
+		newElements = newElements.filter(function (child) {
+			return child.matches(selector);
+		});
 	}
 
 	return this._newFromThis(newElements);
@@ -36,12 +38,16 @@ $.fn.children = function (selector) {
  * filtered by selector.
  */
 $.fn.next = function (selector) {
-	let newElements = this.map((i, element) => element.nextElementSibling);
+	let newElements = this.map(function (i, element) {
+		return element.nextElementSibling;
+	});
 
-	newElements = $.unique(newElements).filter((el) => el instanceof Node);
+	newElements = $.unique(newElements)
+		.filter((el) => el instanceof Node);
 
 	if (selector) {
-		newElements = newElements.filter((child) => child.matches(selector));
+		newElements = newElements
+			.filter((child) => child.matches(selector));
 	}
 
 	return this._newFromThis(newElements);
@@ -52,12 +58,16 @@ $.fn.next = function (selector) {
  * filtered by selector.
  */
 $.fn.previous = function (selector) {
-	let newElements = this.map((i, element) => element.previousElementSibling);
+	let newElements = this.map(function (i, element) {
+		return element.previousElementSibling;
+	});
 
-	newElements = $.unique(newElements).filter((el) => el instanceof Node);
+	newElements = $.unique(newElements)
+		.filter((el) => el instanceof Node);
 
 	if (selector) {
-		newElements = newElements.filter((child) => child.matches(selector));
+		newElements = newElements
+			.filter((child) => child.matches(selector));
 	}
 
 	return this._newFromThis(newElements);
@@ -68,12 +78,16 @@ $.fn.previous = function (selector) {
  * by selector.
  */
 $.fn.parent = function (selector) {
-	let newElements = this.map((i, element) => element.parentElement);
+	let newElements = this.map(function (i, element) {
+		return element.parentElement;
+	});
 
-	newElements = $.unique(newElements).filter((el) => el instanceof Node);
+	newElements = $.unique(newElements)
+		.filter((el) => el instanceof Node);
 
 	if (selector) {
-		newElements = newElements.filter((child) => child.matches(selector));
+		newElements = newElements
+			.filter((child) => child.matches(selector));
 	}
 
 	return this._newFromThis(newElements);
@@ -89,16 +103,21 @@ $.fn.parent = function (selector) {
  */
 $.fn.parents = function (selector) {
 	let newElements = [];
-	this.each((i, element) => newElements.push(...parents(element)));
-	newElements = $.unique(newElements).filter((el) => el instanceof Node);
+	this.each(function (i, element) {
+		newElements.push(...parents(element));
+	});
+
+	newElements = $.unique(newElements)
+			.filter((el) => el instanceof Node);
 
 	if (selector) {
-		newElements = newElements.filter((child) => child.matches(selector));
+		newElements = newElements
+			.filter((child) => child.matches(selector));
 	}
 
 	return this._newFromThis(newElements);
 
-	// A generator function to return the parents of an element
+	// Generator function to get the parents of an element
 	function* parents(element) {
 		while ((element = element.parentElement)) {
 			yield element;
@@ -120,8 +139,10 @@ $.fn.closest = function (selector) {
 		return element;
 	});
 
-	// This gets rid of duplicates and ensures that we don't return null elements
-	newElements = $.unique(newElements).filter((el) => el instanceof Node);
+	// This gets rid of duplicates and ensures that we don't
+	// return null elements
+	newElements = $.unique(newElements)
+		.filter((el) => el instanceof Node);
 
 	return this._newFromThis(newElements);
 };
