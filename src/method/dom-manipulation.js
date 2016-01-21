@@ -35,3 +35,30 @@ $.fn.remove = function (selector) {
 		}
 	});
 };
+
+/**
+ * Add a class using the classList API.
+ */
+$.fn.addClass = function (className = '') {
+	this.each(function () {
+		this.classList.add(className);
+	});
+}
+
+/**
+ * Remove a class from an element using the classList API.
+ */
+$.fn.removeClass = function (className = '') {
+	this.each(function () {
+		this.classList.remove(className);
+	});
+}
+
+/**
+ * Toggle a class from an element using the classList API.
+ */
+$.fn.toggleClass = function (className = '') {
+	this.each(function () {
+		this.classList.toggle(className);
+	});
+}

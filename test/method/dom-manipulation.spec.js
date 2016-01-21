@@ -62,4 +62,27 @@ describe('DOM Manipulation', function () {
 			$('#dom-manipulation .remove p').length.should.equal(0)
 		});
 	});
+
+	describe('$.fn.addClass()', function () {
+		it('should add a class to the element', function () {
+			$('#dom-manipulation .addClass p').addClass('blah');
+			$('#dom-manipulation .addClass p')[0].classList.contains('blah').should.equal(true);
+		});
+	});
+
+	describe('$.fn.removeClass()', function () {
+		it('should remove a class from the element', function () {
+			$('#dom-manipulation .removeClass p').removeClass('blah');
+			$('#dom-manipulation .removeClass p')[0].classList.contains('blah').should.equal(false);
+		});
+	});
+
+	describe('$.fn.toggleClass()', function () {
+		it('should toggle a class from the element', function () {
+			$('#dom-manipulation .removeClass p.foo').toggleClass('foo');
+			$('#dom-manipulation .removeClass p')[0].classList.contains('foo').should.equal(false);
+			$('#dom-manipulation .removeClass p').toggleClass('foo');
+			$('#dom-manipulation .removeClass p')[0].classList.contains('foo').should.equal(true);
+		});
+	});
 });
