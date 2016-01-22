@@ -1,10 +1,9 @@
 # jNearly
 
-A library and learning tool. Contains the features of jQuery, but written
-using ES5, ES2015, and modern browser features.
+jNearly is a JavaScript library and learning tool containing the functionality
+of jQuery, but written using ES5, ES2015, and modern browser features.
 
-Also will—soon—contain an annotated source so that people don't have to trawl
-through github! :)
+There is an annotated source, which you can view at [jNearly.com].
 
 Contributions very welcome! Just send a pull request. I'd recommend opening an
 issue before you start working on something, to avoid two people working on the
@@ -13,8 +12,15 @@ same thing.
 ## To contribute
 
 To contribute, clone the repository and run `npm install` in the root
-directory, which will install the necessary dependencies. Then run `gulp` and
-it'll do everything else for you.
+directory, which will install the necessary dependencies for development. Then
+run `gulp` and it'll do everything else for you.
+
+Code can contain anything up to ES2016 stage 3 proposals—that's ES5, ES2015,
+and ES2016 stage 3, 4 and accepted proposals (such as `[].includes` and `**`).
+See this article for a list of what's in ES2016: [What's in ECMAScript 2016?]
+
+All code should be documented and tested. I'd recommend consulting
+[the jQuery API documentation]: functions do more than most people know about!
 
 ### Generated documentation
 
@@ -35,9 +41,13 @@ $.fn.each = function (cb) {
 };
 ```
 
-## Todo
+## Work In Progress
 
-- Write tests
-- Style annotated docs
-- Write code
-- Split annotated docs generator into another repo
+jNearly is currently a work in progress. If you want to contribute, you can
+find a list of things that need doing on this issue:
+[Things that need doing!][#1] (also, you're awesome)
+
+[jNearly.com]: http://jnearly.com
+[What's in ECMAScript 2016?]: http://www.2ality.com/2015/11/tc39-process.html
+[the jQuery API documentation]: http://api.jquery.com/
+[#1]: https://github.com/jNearly/jNearly/issues/1
