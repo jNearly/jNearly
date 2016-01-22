@@ -262,4 +262,55 @@ describe('Util functions', function () {
 			$.type(/test/).should.equal('regexp');
 		});
 	});
+
+	describe('$.parseHTML()', function () {
+		it('should accept simple elements', function () {
+			var html = '<p>hello</p>';
+			var parsed = $.parseHTML(html);
+			parsed.should.be.an.Array();
+			parsed.length.should.equal(1);
+			parsed[0].outerHTML.should.equal(html);
+		});
+
+		it('should accept complex elements', function () {
+			var html = '<p>This is a <strong>strong</strong> message</p>';
+
+			var parsed = $.parseHTML(html);
+			parsed.should.be.an.Array();
+			parsed.length.should.equal(1);
+			parsed[0].outerHTML.should.equal(html);
+		});
+
+		it('should accept multiple elements', function () {
+			var html1 = '<p>test</p>';
+			var html2 = '<p>test2</p>';
+
+			var parsed = $.parseHTML(html1 + html2);
+			parsed.should.be.an.Array();
+			parsed.length.should.equal(2);
+			parsed[0].outerHTML.should.equal(html1);
+			parsed[1].outerHTML.should.equal(html2);
+		});
+
+		it('should accept multiple nodes', function () {
+			var html = 'hello, <b>my name is</b> jNearly.'
+			var parsed = $.parseHTML(html);
+			parsed.should.be.an.Array();
+			parsed.length.should.equal(3);
+
+			parsed[0].nodeName.should.equal('#text');
+			parsed[0].nodeValue.should.equal('hello, ');
+			parsed[1].outerHTML.should.equal('<b>my name is</b>');
+			parsed[2].nodeValue.should.equal(' jNearly.');
+		});
+
+		it('should work with different documents', function () {
+			var iframeDocument = $('#util iframe')[0].contentWindow.document;
+
+			var parsed = $.parseHTML('<p>test</p>', iframeDocument);
+			parsed.length.should.equal(1);
+			parsed[0].innerHTML.should.equal('test');
+			should.equal(parsed[0].ownerDocument, iframeDocument);
+		});
+	});
 });

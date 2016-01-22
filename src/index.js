@@ -25,11 +25,26 @@ function $(input, context = document) {
 	let elements = getElementsFromInput(input, context);
 
 	setElements(this, elements);
+
+	let isHTML = typeof input === 'string' && input.startsWith('<');
+	if (isHTML && !isDocument(context)) {
+		this.attr(context);
+	}
+
 	this._syncLength();
 }
 
 function getElementsFromInput(input, context) {
 	if (typeof input === 'string') {
+
+		if (input.startsWith('<')) {
+			if (isDocument(context)) {
+				return $.parseHTML(input, context);
+			} else {
+				return $.parseHTML(input);
+			}
+		}
+
 		return Array.from(context.querySelectorAll(input));
 	} else if (Array.isArray(input)) {
 		return input;
