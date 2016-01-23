@@ -140,7 +140,7 @@ $.fn.one = function (events, selector, handler) {
 		that.off(events, selector, newHandler);
 	};
 
-	this.on(events, selector, newHandler);
+	return this.on(events, selector, newHandler);
 };
 
 /**
