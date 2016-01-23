@@ -111,6 +111,152 @@ describe('Events', function () {
 		});
 	});
 
+	describe('$.fn.off()', function () {
+		it('should remove events added by $.fn.on()', function () {
+			var clicked = 0;
+			function handler() {
+				clicked++;
+			}
+
+			var $body = $('body');
+			$body.on('click', handler);
+			fireEvent($body[0], 'click');
+			fireEvent($body[0], 'click');
+
+			clicked.should.equal(2);
+
+			$body.off('click', handler);
+			fireEvent($body[0], 'click');
+
+			clicked.should.equal(2);
+		});
+
+		it('should remove events with selectors', function () {
+			var clicked = 0;
+			function handler() {
+				clicked++;
+			}
+
+			var $body = $('body');
+			var $events = $body.find('#events-off');
+			$body.on('click', '#events-off', handler);
+
+			fireEvent($events[0], 'click');
+			fireEvent($events[0], 'click');
+
+			clicked.should.equal(2);
+
+			$body.off('click', '#events-off', handler);
+
+			fireEvent($events[0], 'click');
+
+			clicked.should.equal(2);
+		});
+
+		it('should not remove other events with selectors', function () {
+			var clicked = 0;
+			function handler() {
+				clicked++;
+			}
+
+			var $body = $('body');
+			$body.on('click', handler);
+
+			fireEvent($body[0], 'click');
+			fireEvent($body[0], 'click');
+
+			clicked.should.equal(2);
+
+			$body.off('click', '#events-off', handler);
+
+			fireEvent($body[0], 'click');
+
+			clicked.should.equal(3);
+		});
+
+		it('should not remove events with selectors when selector not specified', function () {
+			var clicked = 0;
+			function handler() {
+				clicked++;
+			}
+
+			var $body = $('body');
+			var $events = $body.find('#events-off');
+			$body.on('click', '#events-off', handler);
+
+			fireEvent($events[0], 'click');
+			fireEvent($events[0], 'click');
+
+			clicked.should.equal(2);
+
+			$body.off('click', handler);
+
+			fireEvent($events[0], 'click');
+
+			clicked.should.equal(3);
+		});
+
+		it('should remove events with wildcard selectors', function () {
+			var clicked = 0;
+			function handler() {
+				clicked++;
+			}
+
+			var $body = $('body');
+			var $events = $body.find('#events-off');
+			$body.on('click', '#events-off', handler);
+
+			fireEvent($events[0], 'click');
+			fireEvent($events[0], 'click');
+
+			clicked.should.equal(2);
+
+			$body.off('click', '**', handler);
+
+			fireEvent($events[0], 'click');
+
+			clicked.should.equal(2);
+		});
+
+		it('should remove events from just the name', function () {
+			var clicked = 0;
+			function handler() {
+				clicked++;
+			}
+
+			var $body = $('body');
+			$body.on('click', handler);
+			fireEvent($body[0], 'click');
+			fireEvent($body[0], 'click');
+
+			clicked.should.equal(2);
+
+			$body.off('click');
+			fireEvent($body[0], 'click');
+
+			clicked.should.equal(2);
+		});
+
+		it('should remove all events with no arguments', function () {
+			var clicked = 0;
+			function handler() {
+				clicked++;
+			}
+
+			var $body = $('body');
+			$body.on('click', handler);
+			fireEvent($body[0], 'click');
+			fireEvent($body[0], 'click');
+
+			clicked.should.equal(2);
+
+			$body.off();
+			fireEvent($body[0], 'click');
+
+			clicked.should.equal(2);
+		});
+	});
+
 	describe('$(document).ready()', function () {
 		it('should be ran on document load', function (done) {
 			$(function () {

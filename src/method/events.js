@@ -1,4 +1,10 @@
 /**
+ * Added event listeners are stored in an array so that we can remove them
+ * again easily.
+ */
+const listeners = [];
+
+/**
  * We add event listeners using the `addEventListener` method. It accepts
  * different arguments to jQuery's `on` method, which is designed to make
  * adding events to a lot of elements at the same time really easy.
@@ -31,12 +37,12 @@ $.fn.on = function (events, selector, handler) {
 	}
 
 	// By now, `events` is a string containing a single event
-	return this.each(function () {
-		this.addEventListener(events, (e) => {
+	return this.each(function (i, element) {
+		let jHandler = function (e) {
 			let returnValue;
 
 			if (!selector) {
-				returnValue = handler.call(this, e);
+				returnValue = handler.call(element, e);
 			} else if (e.target.matches(selector)) {
 				returnValue = handler.call(e.target, e);
 			}
@@ -46,7 +52,63 @@ $.fn.on = function (events, selector, handler) {
 				e.preventDefault();
 				e.stopPropagation();
 			}
-		});
+		};
+
+		let event = events;
+		listeners.push({ element, event, selector, handler, jHandler });
+		element.addEventListener(event, jHandler);
+	});
+};
+
+/**
+ * A lot of this function is the same as $.fn.on, as both functions accept
+ * similar arguments. Then, we use the `.removeEventListener` function to
+ * remove event listeners: but because we added our own listener in `.on()`,
+ * we're having to do a tonne of additional logic to make sure we're removing
+ * the correct thing.
+ */
+$.fn.off = function (events, selector, handler) {
+	// `selector` is optional
+	if (typeof selector === 'function') {
+		handler = selector;
+		selector = undefined;
+	}
+
+	// If `events` is an object containing multiple events
+	// and handlers, call `off` again with each event
+	if (typeof events === 'object') {
+		for (let event of Object.keys(events)) {
+			this.off(event, selector, events[event]);
+		}
+
+		return this;
+	}
+
+	// If `events` is a string containing multiple events,
+	// split it up
+	if (events && events.includes(' ')) {
+		for (let event of events.split(' ')) {
+			this.off(event, selector, handler);
+		}
+
+		return this;
+	}
+
+	return this.each(function () {
+		// Iterate through all the listeners, seeing if they
+		// match, and removing them if they do.
+		for (let listener of listeners) {
+			let matchesElement = listener.element === this;
+			let matchesEvent = !events || listener.event === events;
+			let matchesSelector = (!selector && !listener.selector)
+					|| listener.selector === selector || selector === '**';
+			let matchesHandler = !handler|| listener.handler === handler;
+
+			if (matchesElement && matchesEvent && matchesSelector && matchesHandler) {
+				this.removeEventListener(listener.event, listener.jHandler);
+				listeners.splice(listeners.indexOf(listener), 1);
+			}
+		}
 	});
 };
 
