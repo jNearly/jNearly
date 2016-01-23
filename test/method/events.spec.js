@@ -257,6 +257,61 @@ describe('Events', function () {
 		});
 	});
 
+	describe('$.fn.one()', function () {
+		it('should add an event which is only called once', function () {
+			var clicked = 0;
+			function handler() {
+				clicked++;
+			}
+
+			var $body = $('body');
+			$body.one('click', handler);
+			fireEvent($body[0], 'click');
+			fireEvent($body[0], 'click');
+
+			clicked.should.equal(1);
+		});
+
+		it('should work with selectors too', function () {
+			var clicked = 0;
+			function handler() {
+				clicked++;
+			}
+
+			var $body = $('body');
+			var $events = $body.find('#events-off');
+			$body.one('click', '#events-off', handler);
+
+			fireEvent($events[0], 'click');
+			fireEvent($events[0], 'click');
+
+			clicked.should.equal(1);
+		});
+
+		it('should work with event objects', function () {
+			var fired = 0;
+			function handler() {
+				fired++;
+			}
+
+			var $body = $('body');
+
+			$body.one({
+				click: handler,
+				mousemove: handler
+			});
+
+			fireEvent($body[0], 'click');
+			fireEvent($body[0], 'click');
+			fireEvent($body[0], 'click');
+			fireEvent($body[0], 'mousemove');
+			fireEvent($body[0], 'mousemove');
+			fireEvent($body[0], 'mousemove');
+
+			fired.should.equal(2);
+		});
+	});
+
 	describe('$(document).ready()', function () {
 		it('should be ran on document load', function (done) {
 			$(function () {

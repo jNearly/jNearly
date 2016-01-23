@@ -112,6 +112,43 @@ $.fn.off = function (events, selector, handler) {
 	});
 };
 
+/**
+ * To implement `.one()`, we just call `.on()`, but we replace the event
+ * handler with our own version which calls `.off()` once the event has been
+ * fired.
+ */
+$.fn.one = function (events, selector, handler) {
+	if (typeof selector === 'function') {
+		handler = selector;
+		selector = undefined;
+	}
+
+	// If `events` is an object containing multiple events
+	// and handlers, call `one` again with each event
+	if (typeof events === 'object') {
+		for (let event of Object.keys(events)) {
+			this.one(event, selector, events[event]);
+		}
+
+		return this;
+	}
+
+	let that = this;
+
+	let newHandler = function () {
+		handler.apply(this, arguments);
+		that.off(events, selector, newHandler);
+	};
+
+	this.on(events, selector, newHandler);
+};
+
+/**
+ * The ready event fired by jQuery doesn't actually exist. It's actually the
+ * document load event, and this is a function that will fire it immediately
+ * if the document load event has already been fired so that it is always
+ * fired. We do this by checking `document.readyState`.
+ */
 $.fn.ready = function (handler) {
 	if (document.readyState === 'complete') {
 		handler($);
