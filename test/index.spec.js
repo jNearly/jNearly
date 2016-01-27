@@ -48,6 +48,11 @@ describe('jNearly function', function () {
 		should($p[1]).be.Undefined();
 	});
 
+	it('should not freak out when selector not found', function () {
+		$('foobar').length.should.equal(0);
+		$('foobar').should.be.instanceof($);
+	})
+
 	it('should allow you to add functions to $.fn', function () {
 		$.fn.getClassNameTest = function () {
 			return this[0].className;
@@ -60,14 +65,27 @@ describe('jNearly function', function () {
 		$('#index p').splice.should.be.a.Function();
 	});
 
-	it('should allow element context', function () {
-		// First test makes sure the second test will be useful
-		$('p').length.should.be.above(2);
+	describe('context argument', function () {
+		it('should allow element context', function () {
+			// First test makes sure the second test will be useful
+			$('p').length.should.be.above(2);
 
-		$('p', document.getElementById('index')).length.should.equal(2);
+			$('p', document.getElementById('index')).length.should.equal(2);
+		});
+
+		it('should allow selector context', function () {
+			$('p', '#index').length.should.equal(2);
+		});
+
+		it('should allow selector context with multiple elements', function () {
+			$('p', '#index, #index-two').length.should.equal(3);
+		});
+
+		it('should not freak out when selector not found', function () {
+			$('p', 'foobar').length.should.equal(0);
+			$('p', 'foobar').should.be.instanceof($);
+		})
 	});
-
-	it('should allow selector context');
 
 	describe('it should accept HTML strings', function () {
 		it('should accept simple strings', function () {

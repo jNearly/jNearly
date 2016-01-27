@@ -45,6 +45,10 @@ function getElementsFromInput(input, context) {
 			}
 		}
 
+		if (typeof context === 'string') {
+			return $(context).find(input).get();
+		}
+
 		return Array.from(context.querySelectorAll(input));
 	} else if (Array.isArray(input)) {
 		return input;
