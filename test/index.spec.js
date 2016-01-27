@@ -69,5 +69,25 @@ describe('jNearly function', function () {
 
 	it('should allow selector context');
 
-	it('should accept HTML strings');
+	describe('it should accept HTML strings', function () {
+		it('should accept simple strings', function () {
+			var html = '<p>test</p>';
+			var $p = $(html);
+			$p.should.be.instanceof($);
+			$p.length.should.equal(1);
+			$p[0].outerHTML.should.equal(html);
+		});
+
+		it('should accept other documents', function () {
+			var iframeDocument = $('#util iframe')[0].contentWindow.document;
+
+			var $p = $('<p>test</p>', iframeDocument);
+			$p.length.should.equal(1);
+			$p[0].innerHTML.should.equal('test');
+			should.equal($p[0].ownerDocument, iframeDocument);
+		});
+
+		// Pending: .attr doesn't exist yet
+		it('should set specified attributes');
+	});
 });

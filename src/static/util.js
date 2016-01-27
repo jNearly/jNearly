@@ -146,3 +146,13 @@ $.type = function (obj) {
 
 	return typeof obj.valueOf();
 };
+
+/**
+ * To parse HTML, we create a new element, set the innerHTML of that element,
+ * and return the `childNodes`: not the `children`, which are only the elements.
+ */
+$.parseHTML = function (html, documentEl = document) {
+	var container = documentEl.createElement('div');
+	container.innerHTML = html;
+	return Array.from(container.childNodes);
+};

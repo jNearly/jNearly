@@ -16,3 +16,11 @@ $.fn._newFromThis = function (newElements) {
 	new$.prevObject = this;
 	return new$;
 };
+
+/**
+ * We can't use `el instanceof Document`, because it's an instance of the
+ * Document object from another window.
+ */
+function isDocument(el) {
+	return el.constructor.name === 'HTMLDocument';
+}

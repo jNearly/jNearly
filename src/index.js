@@ -22,24 +22,39 @@ function $(input, context = document) {
 		return new $(input, context);
 	}
 
-	let elements;
-
-	if (typeof input === 'string') {
-		elements = Array.from(context.querySelectorAll(input));
-	} else if (Array.isArray(input)) {
-		elements = input;
-	} else if (input instanceof NodeList) {
-		elements = Array.from(input);
-	} else if (input instanceof Node) {
-		elements = [input];
-	}
-
-	if (elements == undefined) {
-		throw new TypeError('Input not recognised');
-	}
+	let elements = getElementsFromInput(input, context);
 
 	setElements(this, elements);
+
+	let isHTML = typeof input === 'string' && input.startsWith('<');
+	if (isHTML && !isDocument(context)) {
+		this.attr(context);
+	}
+
 	this._syncLength();
+}
+
+function getElementsFromInput(input, context) {
+	if (typeof input === 'string') {
+
+		if (input.startsWith('<')) {
+			if (isDocument(context)) {
+				return $.parseHTML(input, context);
+			} else {
+				return $.parseHTML(input);
+			}
+		}
+
+		return Array.from(context.querySelectorAll(input));
+	} else if (Array.isArray(input)) {
+		return input;
+	} else if (input instanceof NodeList) {
+		return Array.from(input);
+	} else if (input instanceof Node) {
+		return [input];
+	}
+
+	throw new TypeError('Input not recognised');
 }
 
 /**
