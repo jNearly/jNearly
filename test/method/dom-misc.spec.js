@@ -52,4 +52,104 @@ describe('DOM Miscellaneous', function () {
 			$firstDiv[0].should.equal($divs[7]);
 		});
 	});
+
+	describe('$.fn.filter', function () {
+		var $dom = $('#dom-traversal');
+		var $kids = $dom.find('*');
+
+		it('should accept string input', function () {
+			var $one = $kids.filter('[class^="one"]');
+			$one.should.be.instanceof($);
+			$one.length.should.equal(3);
+			$one[0].className.should.equal('one');
+		});
+
+		it('should accept function input', function () {
+			var $one = $kids.filter(function () {
+				return this.className.indexOf('one') === 0;
+			});
+
+			$one.should.be.instanceof($);
+			$one.length.should.equal(3);
+			$one[0].className.should.equal('one');
+		});
+
+		it('should accept a single DOM element', function () {
+			var oneOne = $dom.find('.one-one')[0];
+			var $oneOne = $kids.filter(oneOne);
+
+			$oneOne.should.be.instanceof($);
+			$oneOne.length.should.equal(1);
+			$oneOne[0].should.equal(oneOne);
+
+			$oneOne.prevObject.should.equal($kids);
+		});
+
+		it('should accept array of elements', function () {
+			var ones = $dom.find('[class^="one"]').get();
+
+			var $one = $kids.filter(ones);
+			$one.should.be.instanceof($);
+			$one.length.should.equal(3);
+			$one[0].className.should.equal('one');
+		});
+
+		it('should accept a NodeList', function () {
+			var ones = $dom[0].querySelectorAll('[class^="one"]');
+
+			var $one = $kids.filter(ones);
+			$one.should.be.instanceof($);
+			$one.length.should.equal(3);
+			$one[0].className.should.equal('one');
+		});
+
+		it('should accept a jQuery object', function () {
+			var $ones = $dom.find('[class^="one"]');
+
+			var $one = $kids.filter($ones);
+			$one.should.be.instanceof($);
+			$one.length.should.equal(3);
+			$one[0].className.should.equal('one');
+		});
+	});
+
+	describe('$.fn.is()', function () {
+		var $dom = $('#dom-traversal');
+		var $kids = $dom.find('*');
+
+		it('should accept string input', function () {
+			$kids.is('[class^="one"]').should.be.True();
+			$kids.is('[class^="zero"]').should.be.False();
+		});
+
+		it('should accept function input', function () {
+			$kids.is(function () {
+				return this.className.indexOf('one') === 0;
+			}).should.equal(true);
+
+			$kids.is(function () {
+				return false;
+			}).should.equal(false);
+		});
+
+		it('should accept a single DOM element', function () {
+			var oneOne = $dom.find('.one-one')[0];
+			$kids.is(oneOne).should.be.True();
+		});
+
+		it('should accept array of elements', function () {
+			var ones = $dom.find('[class^="one"]').get();
+			$kids.is(ones).should.be.True();
+		});
+
+		it('should accept a NodeList', function () {
+			var ones = $dom[0].querySelectorAll('[class^="one"]');
+			$kids.is(ones).should.be.True();
+		});
+
+		it('should accept a jQuery object', function () {
+			var $ones = $dom.find('[class^="one"]');
+			$kids.is($ones).should.be.True();
+		});
+	});
 });
