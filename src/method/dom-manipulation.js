@@ -35,3 +35,32 @@ $.fn.remove = function (selector) {
 		}
 	});
 };
+
+const propFix = {
+	'tabindex': 'tabIndex',
+	'readonly': 'readOnly',
+	'maxlength': 'maxLength',
+	'cellspacing': 'cellSpacing',
+	'cellpadding': 'cellPadding',
+	'rowspan': 'rowSpan',
+	'colspan': 'colSpan',
+	'usemap': 'useMap',
+	'frameborder': 'frameBorder',
+	'contenteditable': 'contentEditable'
+};
+
+$.fn.prop = function (name, value) {
+	name = propFix[name] || name;
+
+	if (value !== undefined) {
+		return this.each((i, el) => el[name] = value);
+	}
+
+	return this[0][name];
+};
+
+$.fn.removeProp = function (name) {
+	name = propFix[name] || name;
+
+	return this.each((i, el) => delete el[name]);
+};

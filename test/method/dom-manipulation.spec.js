@@ -62,4 +62,22 @@ describe('DOM Manipulation', function () {
 			$('#dom-manipulation .remove p').length.should.equal(0)
 		});
 	});
+
+	describe('$.fn.prop()', function () {
+		it('should set property', function () {
+			$('#dom-manipulation .prop input').prop('readonly', true);
+			$('#dom-manipulation .prop input')[0].readOnly.should.equal(true);
+		});
+
+		it('should get property', function () {
+			$('#dom-manipulation .prop input').prop('readonly').should.equal(true);
+		});
+	});
+
+	describe('$.fn.removeProp()', function () {
+		it('should remove property', function () {
+			$('#dom-manipulation .removeProp input').prop('fakeprop', 'foo').removeProp('fakeprop');
+			should($('#dom-manipulation .removeProp input')[0]['fakeprop']).be.undefined;
+		});
+	});
 });
