@@ -62,4 +62,56 @@ describe('DOM Manipulation', function () {
 			$('#dom-manipulation .remove p').length.should.equal(0)
 		});
 	});
+
+	describe('$.fn.addClass()', function () {
+		it('should add a class to the element', function () {
+			$('#dom-manipulation .addClass > p').addClass('blah');
+			$('#dom-manipulation .addClass > p')[0].classList.contains('blah').should.equal(true);
+		});
+
+		it('can take a space delimited list of classes', function () {
+			$('#dom-manipulation .addClass .multiple p').addClass('foo bar');
+			$('#dom-manipulation .addClass .multiple p')[0].classList.contains('foo').should.equal(true);
+			$('#dom-manipulation .addClass .multiple p')[0].classList.contains('bar').should.equal(true);
+		});
+	});
+
+	describe('$.fn.removeClass()', function () {
+		it('should remove a class from the element', function () {
+			$('#dom-manipulation .removeClass > p').removeClass('blah');
+			$('#dom-manipulation .removeClass > p')[0].classList.contains('blah').should.equal(false);
+		});
+
+		it('can take a space delimited list of classes', function () {
+			$('#dom-manipulation .removeClass .multiple p').removeClass('foo bar');
+			$('#dom-manipulation .removeClass .multiple p')[0].classList.contains('foo').should.equal(false);
+			$('#dom-manipulation .removeClass .multiple p')[0].classList.contains('bar').should.equal(false);
+		});
+	});
+
+	describe('$.fn.toggleClass()', function () {
+		it('should toggle a class from the element', function () {
+			$('#dom-manipulation .toggleClass > p.foo').toggleClass('foo');
+			$('#dom-manipulation .toggleClass > p')[0].classList.contains('foo').should.equal(false);
+			$('#dom-manipulation .toggleClass > p').toggleClass('foo');
+			$('#dom-manipulation .toggleClass > p')[0].classList.contains('foo').should.equal(true);
+		});
+
+		it('can take a space delimited list of classes', function () {
+			$('#dom-manipulation .toggleClass .multiple p').toggleClass('foo bar');
+			$('#dom-manipulation .toggleClass .multiple p')[0].classList.contains('foo').should.equal(false);
+			$('#dom-manipulation .toggleClass .multiple p')[0].classList.contains('bar').should.equal(false);
+			$('#dom-manipulation .toggleClass .multiple p').toggleClass('foo bar');
+			$('#dom-manipulation .toggleClass .multiple p')[0].classList.contains('foo').should.equal(true);
+			$('#dom-manipulation .toggleClass .multiple p')[0].classList.contains('bar').should.equal(true);
+		});
+
+		it('if force is passed as false, the class is removed but not added', function () {
+			$('#dom-manipulation .force p').toggleClass('toggleFalse', false);
+			$('#dom-manipulation .force p').toggleClass('newToggle', false);
+			$('#dom-manipulation .force p')[0].classList.contains('toggleFalse').should.equal(false);
+			$('#dom-manipulation .force p')[0].classList.contains('newToggle').should.equal(false);
+
+		});
+	});
 });
