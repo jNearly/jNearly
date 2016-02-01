@@ -38,10 +38,13 @@ $.fn.remove = function (selector) {
 
 /**
  * Add a class using the classList API.
+ * We use `...classNames` instead of `this.classList.apply(this.classList, classNames`
+ * The spread operator (`...`) spreads an array into arguments for a function call
  */
 $.fn.addClass = function (className = '') {
+	const classNames = className.split(' ');
 	this.each(function () {
-		this.classList.add(className);
+		this.classList.add(...classNames);
 	});
 }
 
@@ -49,16 +52,25 @@ $.fn.addClass = function (className = '') {
  * Remove a class from an element using the classList API.
  */
 $.fn.removeClass = function (className = '') {
+	const classNames = className.split(' ');
 	this.each(function () {
-		this.classList.remove(className);
+		this.classList.remove(...classNames);
 	});
 }
 
 /**
  * Toggle a class from an element using the classList API.
  */
-$.fn.toggleClass = function (className = '') {
+$.fn.toggleClass = function (className = '', force) {
+	const classNames = className.split(' ');
+	const hasForce = force !== undefined;
 	this.each(function () {
-		this.classList.toggle(className);
+		classNames.forEach((klass) => {
+			if (hasForce) {
+				this.classList.toggle(klass, force);
+			} else {
+				this.classList.toggle(klass);
+			}
+		});
 	});
 }
